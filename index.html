@@ -202,6 +202,27 @@
     .facts div:nth-child(5) { grid-column: span 2; }
     .facts div:nth-child(9) { grid-column: span 3; }
 
+    /* 걸어온 길 타임라인 그림 */
+    .tl { margin-top: 34px; overflow-x: auto; padding-bottom: 6px; }
+    .tl-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(6, minmax(140px, 1fr)); position: relative; }
+    .tl-list::before { content: ""; position: absolute; left: 8px; right: 8px; top: 39px; height: 3px; border-radius: 3px;
+      background: linear-gradient(90deg, var(--indigo) 0 75%, var(--seam) 75% 100%); }
+    .tl-list li { position: relative; padding: 0 14px 0 0; }
+    .tl-date { display: block; font-size: .85rem; font-weight: 700; color: var(--indigo); font-variant-numeric: tabular-nums; height: 26px; }
+    .tl-list li::before { content: ""; display: block; width: 20px; height: 20px; border-radius: 50%; margin: 0 0 16px; position: relative; z-index: 1;
+      background: var(--indigo); box-shadow: 0 0 0 4px var(--sheet); }
+    .tl-list li.cur::before { background: var(--sheet); border: 5px solid var(--indigo); box-shadow: 0 0 0 4px var(--sheet), 0 0 0 9px var(--wash); }
+    .tl-list li.next::before { background: var(--sheet); border: 2.5px dashed var(--indigo-2); }
+    .tl-list li { display: grid; grid-template-rows: 26px 36px auto 1fr; align-items: start; }
+    .tl-list li::before { box-sizing: border-box; grid-row: 2; }
+    .tl-list li .tl-date { grid-row: 1; }
+    .tl-list li .tl-date { order: -1; }
+    .tl-list strong { display: block; letter-spacing: -.02em; line-height: 1.4; margin-bottom: 4px; }
+    .tl-list strong em { font-style: normal; font-size: .75rem; font-weight: 700; color: #fff; background: var(--indigo); padding: 2px 8px; border-radius: 999px; margin-left: 4px; vertical-align: 2px; }
+    [data-theme="dark"] .tl-list strong em { color: #0f1330; }
+    .tl-desc { color: var(--ink-2); font-size: .9rem; line-height: 1.6; display: block; }
+    .tl-list li.next strong, .tl-list li.next .tl-desc { color: var(--muted); }
+
     [hidden] { display: none !important; }
 
     footer { padding: 36px 0 56px; color: var(--muted); font-size: .9rem; }
@@ -227,6 +248,12 @@
       .block { padding: 36px 24px 40px; border-radius: 22px; }
       .block::after { inset: 7px; border-radius: 16px; }
       .points, .info, .steps { grid-template-columns: 1fr; }
+      .tl-list { grid-template-columns: 1fr; gap: 0; }
+      .tl-list::before { left: 9px; right: auto; top: 10px; bottom: 10px; width: 3px; height: auto;
+        background: linear-gradient(180deg, var(--indigo) 0 78%, var(--seam) 78% 100%); }
+      .tl-list li { display: block; padding: 0 0 22px 38px; }
+      .tl-list li::before { position: absolute; left: 0; top: 2px; margin: 0; }
+      .tl-date { height: auto; }
       .facts { grid-template-columns: 1fr 1fr; }
       .facts .w, .facts div:nth-child(n+5) { grid-column: span 2; }
       .points { gap: 28px; }
@@ -353,17 +380,20 @@
 
     <section class="block" id="journey" aria-labelledby="h-journey">
       <h2 id="h-journey">걸어온 길</h2>
-      <p class="intro">원단시장에서 지금 이 페이지까지, 다섯 단계로 정리했습니다.</p>
+      <p class="intro">원단시장에서 첫 출근을 목표로 하는 지금까지, 시간 순서대로 정리했습니다.</p>
       <button class="toggle" type="button" aria-expanded="false" aria-controls="steps" data-open-label="접기" data-closed-label="펼쳐 보기">
         <span class="label-txt">펼쳐 보기</span><span class="chev" aria-hidden="true"></span>
       </button>
-      <ol class="steps" id="steps" hidden>
-        <li><strong>원단시장 2년</strong><span>사람과 주문을 다루며 책임감과 속도를 익혔습니다.</span></li>
-        <li><strong>개발로 진로 전환</strong><span>코리아IT아카데미 국비 과정에서 Java, Python, C, Linux 기초를 배웠습니다.</span></li>
-        <li><strong>자격 준비</strong><span>정보처리산업기사 과정평가형을 수료했습니다.</span></li>
-        <li><strong>풀스택과 SKT ALEPH</strong><span>코리아AI아카데미에서 두 과정을 함께 듣고 있습니다.</span></li>
-        <li><strong>첫 공개 결과물</strong><span>지금 보고 계신 이 페이지입니다.</span></li>
-      </ol>
+      <div class="tl" id="steps" hidden>
+        <ol class="tl-list">
+          <li class="done"><span class="tl-date">2년</span><strong>원단시장</strong><span class="tl-desc">거래처와 주문을 다루며 책임감과 속도를 익혔습니다.</span></li>
+          <li class="done"><span class="tl-date">~ 2025.10</span><strong>코리아IT아카데미</strong><span class="tl-desc">일을 그만두고 국비 과정에서 Java, Python, C, Linux 기초를 배웠습니다.</span></li>
+          <li class="done"><span class="tl-date">2025.12 ~</span><strong>코리아AI아카데미</strong><span class="tl-desc">지금까지 이어서 다니며 개발 공부를 계속하고 있습니다.</span></li>
+          <li class="done"><span class="tl-date">2026.10</span><strong>풀스택 과정</strong><span class="tl-desc">주말마다 AI 도구로 풀스택 개발을 배웁니다.</span></li>
+          <li class="cur"><span class="tl-date">2026.11 ~</span><strong>SKT ALEPH <em>지금</em></strong><span class="tl-desc">2027년 2월까지 평일 과정을 들으며, 첫 결과물로 이 페이지를 만들었습니다.</span></li>
+          <li class="next"><span class="tl-date">2027.03 ~</span><strong>개발자로 첫 출근</strong><span class="tl-desc">취업을 목표로 준비하고 있습니다.</span></li>
+        </ol>
+      </div>
     </section>
 
     <section class="block" id="scope" aria-labelledby="h-scope">
